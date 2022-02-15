@@ -80,8 +80,6 @@ public class Bot {
     Color coordenadasBotaoConfirmaAposta = robot.getPixelColor(460, 400);
 
     //BARRA VERMELHA
-    Color coordenadasBarra = robot.getPixelColor(644, 246);
-    Color rgbBarraConfirmaVerificacao = new Color(241,44,76);
 
     //MULTIPLOS APOSTAS
     double xPreto = 2;
@@ -89,8 +87,9 @@ public class Bot {
     double xBranco = 14;
 
     //PARAMETRO PRA VER SE ELE CLICA NO BOTAO REALIZAR APOSTA, SE estadoDoBotao == 1  QUER DIZER QUE O BOTAO NAO ESTA LIBERADO
-    int estadoDoBotao =0;
-    int verifica =0;
+    int verificaEstadoDoBotaoRealizaAposta =0;
+    int verificaEscolhaAposta =0;
+    int verificaResultadoAposta =0;
 
     //PADROES DE CORES
     Color[] sequencia1 = {pretoTela, pretoTela, pretoTela, pretoTela, pretoTela}; //APOSTA VERMELHO
@@ -121,7 +120,7 @@ public class Bot {
 //        verificaSorteadas();
         int flag = 0;
         //valor do deposito = vc escolhe
-        double deposito = 400;
+        double deposito = 398;
         double saldo = deposito;
         double percentual = 0.005;
         double valorAposta = deposito*percentual;
@@ -139,9 +138,9 @@ public class Bot {
 
 
         int qtdAposta = 0;
-       TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(1);
 
-        //INICIO DO LACO
+        //INICIO DO LACO PRINCIPAL
         while (flag  == 0) {
                 Color corEscolhida = null;
                 Color corBranco = brancoTela;
@@ -151,252 +150,280 @@ public class Bot {
                     valorAposta = 2;
                 }
 
-                //CON1.0FIGURA valor a ser digitado da aposta
-                String digiteAposta = Double.toString(valorAposta);
-                StringSelection stringSelecionada = new StringSelection(digiteAposta);//SELECIONA A STRING
-                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                clipboard.setContents(stringSelecionada, stringSelecionada);
 
-                //VERIFICA O VALOR DA APOSTA PARA INSERI O BRANCO OU NAO
-                todasCoresParaEscolherAposta = verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-
-
-                //COLETAR OS 5 ULTIMOS RESULTADOS
-                Color[] cincoUltasCores = new Color[5];
-                for (int a = 0; a < 5; a++) {
-                    cincoUltasCores[a] = robot.getPixelColor(resultadosAnterioresX[a], resultadosAnterioresY);
-                }
-                //VERIFICAR SEQUENCIA1
-                if (cincoUltasCores[0].equals(sequencia1[0])) {
-                    if (cincoUltasCores[1].equals(sequencia1[1])) {
-                        if (cincoUltasCores[2].equals(sequencia1[2])) {
-                            if (cincoUltasCores[3].equals(sequencia1[3])) {
-                                if (cincoUltasCores[4].equals(sequencia1[4])) {
-                                    corEscolhida = vermelhoTela;
-                                    todasCoresParaEscolherAposta = vermelho;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
-                    }
-                }
-                //VERIFICA SEQUENCIA2
-                if (cincoUltasCores[0].equals(sequencia2[0])) {
-                    if (cincoUltasCores[1].equals(sequencia2[1])) {
-                        if (cincoUltasCores[2].equals(sequencia2[2])) {
-                            if (cincoUltasCores[3].equals(sequencia2[3])) {
-                                if (cincoUltasCores[4].equals(sequencia2[4])) {
-                                    corEscolhida = vermelhoTela;
-                                    todasCoresParaEscolherAposta = vermelho;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
-                    }
-                }
-                //VERIFICA SEQUENCIA3
-                if (cincoUltasCores[0].equals(sequencia3[0])) {
-                    if (cincoUltasCores[1].equals(sequencia3[1])) {
-                        if (cincoUltasCores[2].equals(sequencia3[2])) {
-                            if (cincoUltasCores[3].equals(sequencia3[3])) {
-                                corEscolhida = vermelhoTela;
-                                todasCoresParaEscolherAposta = vermelho;
-                            }
-                        }
-                    }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
-                    }
-                }
-                //VERIFICA SEQUENCIA4
-                if (cincoUltasCores[0].equals(sequencia4[0])) {
-                    if (cincoUltasCores[1].equals(sequencia4[1])) {
-                        if (cincoUltasCores[2].equals(sequencia4[2])) {
-                            corEscolhida = vermelhoTela;
-                            todasCoresParaEscolherAposta = vermelho;
-                        }
-                    }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
-                    }
-                }
-                //VERIFICAR SEQUENCIA5
-                if (cincoUltasCores[0].equals(sequencia5[0])) {
-                    if (cincoUltasCores[1].equals(sequencia5[1])) {
-                        if (cincoUltasCores[2].equals(sequencia5[2])) {
-                            if (cincoUltasCores[3].equals(sequencia5[3])) {
-                                if (cincoUltasCores[4].equals(sequencia5[4])) {
-                                    corEscolhida = pretoTela;
-                                    todasCoresParaEscolherAposta = preto;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
-                    }
-                }
-                //VERIFICAR SEQUENCIA6
-                if (cincoUltasCores[0].equals(sequencia6[0])) {
-                    if (cincoUltasCores[1].equals(sequencia6[1])) {
-                        if (cincoUltasCores[2].equals(sequencia6[2])) {
-                            if (cincoUltasCores[3].equals(sequencia6[3])) {
-                                if (cincoUltasCores[4].equals(sequencia6[4])) {
-                                    corEscolhida = pretoTela;
-                                    todasCoresParaEscolherAposta = preto;
-                                } else {
-                                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                                    if (todasCoresParaEscolherAposta == 1) {
-                                        corEscolhida = vermelhoTela;
-                                    } else if (todasCoresParaEscolherAposta == 2) {
-                                        corEscolhida = pretoTela;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
-                    }
-                }
-                //VERIFICAR SEQUENCIA7
-                if (cincoUltasCores[0].equals(sequencia7[0])) {
-                    if (cincoUltasCores[1].equals(sequencia7[1])) {
-                        if (cincoUltasCores[2].equals(sequencia7[2])) {
-                            if (cincoUltasCores[3].equals(sequencia7[3])) {
+                   //COLETAR OS 5 ULTIMOS RESULTADOS PARA REALIZAR A APOSTA
+                   Color[] cincoUltasCores = new Color[5];
+                   System.out.println("=================================================================================");
+                   System.out.println("Verificando resultados anteriores");
+                   for (int a = 0; a < 5; a++) {
+                       cincoUltasCores[a] = robot.getPixelColor(resultadosAnterioresX[a], resultadosAnterioresY);
+                   }
+//----------------------------------------------------------------------------------------------------------------------
+                   //VERIFICAR SEQUENCIA1
+                   if (cincoUltasCores[0].equals(sequencia1[0])) {
+                       if (cincoUltasCores[1].equals(sequencia1[1])) {
+                           if (cincoUltasCores[2].equals(sequencia1[2])) {
+                               if (cincoUltasCores[3].equals(sequencia1[3])) {
+                                   if (cincoUltasCores[4].equals(sequencia1[4])) {
+                                       valorAposta = valorAposta*2;
+                                       corEscolhida = vermelhoTela;
+                                       todasCoresParaEscolherAposta = vermelho;
+                                   }
+                               }
+                           }
+                       }
+                   //RANDOM
+                   } else {
+                       valorAposta = 2;
+                       verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                       if (todasCoresParaEscolherAposta == 1) {
+                           corEscolhida = vermelhoTela;
+                       } else if (todasCoresParaEscolherAposta == 2) {
+                           corEscolhida = pretoTela;
+                       }
+                   }
+//----------------------------------------------------------------------------------------------------------------------
+                   //VERIFICA SEQUENCIA2
+                   if (cincoUltasCores[0].equals(sequencia2[0])) {
+                       if (cincoUltasCores[1].equals(sequencia2[1])) {
+                           if (cincoUltasCores[2].equals(sequencia2[2])) {
+                               if (cincoUltasCores[3].equals(sequencia2[3])) {
+                                   if (cincoUltasCores[4].equals(sequencia2[4])) {
+                                       valorAposta = valorAposta*2;
+                                       corEscolhida = vermelhoTela;
+                                       todasCoresParaEscolherAposta = vermelho;
+                                   }
+                               }
+                           }
+                       }
+                   //RANDOM
+                   } else {
+                       valorAposta = 2;
+                       verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                       if (todasCoresParaEscolherAposta == 1) {
+                           corEscolhida = vermelhoTela;
+                       } else if (todasCoresParaEscolherAposta == 2) {
+                           corEscolhida = pretoTela;
+                       }
+                   }
+//----------------------------------------------------------------------------------------------------------------------
+                   //VERIFICA SEQUENCIA3
+                   if (cincoUltasCores[0].equals(sequencia3[0])) {
+                       if (cincoUltasCores[1].equals(sequencia3[1])) {
+                           if (cincoUltasCores[2].equals(sequencia3[2])) {
+                               if (cincoUltasCores[3].equals(sequencia3[3])) {
+                                   valorAposta = valorAposta*2;
+                                   corEscolhida = vermelhoTela;
+                                   todasCoresParaEscolherAposta = vermelho;
+                               }
+                           }
+                       }
+                   //RANDOM
+                   } else {
+                       valorAposta = 2;
+                       verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                       if (todasCoresParaEscolherAposta == 1) {
+                           corEscolhida = vermelhoTela;
+                       } else if (todasCoresParaEscolherAposta == 2) {
+                           corEscolhida = pretoTela;
+                       }
+                   }
+//----------------------------------------------------------------------------------------------------------------------
+                   //VERIFICA SEQUENCIA4
+                   if (cincoUltasCores[0].equals(sequencia4[0])) {
+                       if (cincoUltasCores[1].equals(sequencia4[1])) {
+                           if (cincoUltasCores[2].equals(sequencia4[2])) {
+                               valorAposta = valorAposta*2;
+                               corEscolhida = vermelhoTela;
+                               todasCoresParaEscolherAposta = vermelho;
+                           }
+                       }
+                   //RANDOM
+                   } else {
+                       valorAposta = 2;
+                       verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                       if (todasCoresParaEscolherAposta == 1) {
+                           corEscolhida = vermelhoTela;
+                       } else if (todasCoresParaEscolherAposta == 2) {
+                           corEscolhida = pretoTela;
+                       }
+                   }
+//----------------------------------------------------------------------------------------------------------------------
+            //VERIFICAR SEQUENCIA5
+            if (cincoUltasCores[0].equals(sequencia5[0])) {
+                if (cincoUltasCores[1].equals(sequencia5[1])) {
+                    if (cincoUltasCores[2].equals(sequencia5[2])) {
+                        if (cincoUltasCores[3].equals(sequencia5[3])) {
+                            if (cincoUltasCores[4].equals(sequencia5[4])) {
+                                valorAposta = valorAposta*2;
                                 corEscolhida = pretoTela;
                                 todasCoresParaEscolherAposta = preto;
-                            } else {
-                                verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                                if (todasCoresParaEscolherAposta == 1) {
-                                    corEscolhida = vermelhoTela;
-                                } else if (todasCoresParaEscolherAposta == 2) {
-                                    corEscolhida = pretoTela;
-                                }
                             }
                         }
                     }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
-                        corEscolhida = pretoTela;
+                }
+                //RANDOM
+            } else {
+                valorAposta = 2;
+                verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                if (todasCoresParaEscolherAposta == 1) {
+                    corEscolhida = vermelhoTela;
+                } else if (todasCoresParaEscolherAposta == 2) {
+                    corEscolhida = pretoTela;
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------
+            //VERIFICA SEQUENCIA6
+            if (cincoUltasCores[0].equals(sequencia6[0])) {
+                if (cincoUltasCores[1].equals(sequencia6[1])) {
+                    if (cincoUltasCores[2].equals(sequencia6[2])) {
+                        if (cincoUltasCores[3].equals(sequencia6[3])) {
+                            if (cincoUltasCores[4].equals(sequencia6[4])) {
+                                valorAposta = valorAposta*2;
+                                corEscolhida = pretoTela;
+                                todasCoresParaEscolherAposta = preto;
+                            }
+                        }
                     }
                 }
-                //VERIFICAR SEQUENCIA8
-                if (cincoUltasCores[0].equals(sequencia8[0])) {
-                    if (cincoUltasCores[1].equals(sequencia8[1])) {
-                        if (cincoUltasCores[2].equals(sequencia8[2])) {
+                //RANDOM
+            } else {
+                valorAposta = 2;
+                verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                if (todasCoresParaEscolherAposta == 1) {
+                    corEscolhida = vermelhoTela;
+                } else if (todasCoresParaEscolherAposta == 2) {
+                    corEscolhida = pretoTela;
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------
+            //VERIFICA SEQUENCIA7
+            if (cincoUltasCores[0].equals(sequencia7[0])) {
+                if (cincoUltasCores[1].equals(sequencia7[1])) {
+                    if (cincoUltasCores[2].equals(sequencia7[2])) {
+                        if (cincoUltasCores[3].equals(sequencia7[3])) {
+                            valorAposta = valorAposta*2;
                             corEscolhida = pretoTela;
                             todasCoresParaEscolherAposta = preto;
-                        } else {
-                            verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                            if (todasCoresParaEscolherAposta == 1) {
-                                corEscolhida = vermelhoTela;
-                            } else if (todasCoresParaEscolherAposta == 2) {
-                                corEscolhida = pretoTela;
-                            }
                         }
                     }
-                } else {
-                    verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
-                    if (todasCoresParaEscolherAposta == 1) {
-                        corEscolhida = vermelhoTela;
-                    } else if (todasCoresParaEscolherAposta == 2) {
+                }
+                //RANDOM
+            } else {
+                valorAposta = 2;
+                verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                if (todasCoresParaEscolherAposta == 1) {
+                    corEscolhida = vermelhoTela;
+                } else if (todasCoresParaEscolherAposta == 2) {
+                    corEscolhida = pretoTela;
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------
+            //VERIFICA SEQUENCIA8
+            if (cincoUltasCores[0].equals(sequencia8[0])) {
+                if (cincoUltasCores[1].equals(sequencia8[1])) {
+                    if (cincoUltasCores[2].equals(sequencia8[2])) {
+                        valorAposta = valorAposta*2;
                         corEscolhida = pretoTela;
+                        todasCoresParaEscolherAposta = preto;
                     }
                 }
-
-                //ACTIONS
-                int action = 0;
-                while(action<1){
-                if (coordenadasBotaoConfirmaAposta.equals(rgbBotaoConfirmaAposta)) {
-                //VERIFICA A APOSTA ESCOLHIDA PARA REALIZAR AS ACOES NO SITE
-                if (todasCoresParaEscolherAposta == preto) {
-                    String p = digiteAposta;
-                    robot.mouseMove(287, 232);//CAIXA DIGITA VALOR APOSTA
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyRelease(KeyEvent.VK_V);
-                    corEscolhida = pretoTela;
-                    robot.mouseMove(472, 328);//POSICAO DO BOTAO PRETO
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
-                    System.out.println("Cor ecolhida: preto" + " Quantidade de apostas: " + (qtdAposta += 1));
-                } else if (todasCoresParaEscolherAposta == vermelho) {
-                    String v = digiteAposta;
-                    robot.mouseMove(287, 232);//CAIXA DIGITA VALOR APOSTA
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyRelease(KeyEvent.VK_V);
+            //RANDOM
+            } else {
+                valorAposta = 2;
+                verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+                if (todasCoresParaEscolherAposta == 1) {
                     corEscolhida = vermelhoTela;
-                    robot.mouseMove(272, 333); //POSICAO DO BOTAO VERMELHO
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
-                    System.out.println("Cor ecolhida: vermelho" + " Quantidade de apostas: " + (qtdAposta += 1));
-                } else if (todasCoresParaEscolherAposta == branco) {
-                    String v = digiteAposta;
-                    robot.mouseMove(287, 232);//CAIXA DIGITA VALOR APOSTA
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_V);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyRelease(KeyEvent.VK_V);
-                    corEscolhida = brancoTela;
-                    robot.mouseMove(372, 337);//POSICAO DO BOTAO BRANCO
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
-                    System.out.println("Cor ecolhida: branco" + " Quantidade de apostas: " + (qtdAposta += 1));
+                } else if (todasCoresParaEscolherAposta == 2) {
+                    corEscolhida = pretoTela;
                 }
+            }
+//----------------------------------------------------------------------------------------------------------------------
 
-                TimeUnit.SECONDS.sleep(1);
+            //LIMITA O MULTIPLO
+            if(valorAposta > 8){
+                valorAposta = 2;
+            }
 
+            //CON1.0FIGURA valor a ser digitado da aposta
+            String digiteAposta = Double.toString(valorAposta);
+            StringSelection stringSelecionada = new StringSelection(digiteAposta);//SELECIONA A STRING
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelecionada, stringSelecionada);
+
+            //VERIFICA O VALOR DA APOSTA PARA INSERI O BRANCO OU NAO
+            todasCoresParaEscolherAposta = verificaValorAposta(valorAposta, todasCoresParaEscolherAposta, apostaAleatoria);
+
+
+                while(verificaEscolhaAposta <1) {
+                 if (coordenadasBotaoConfirmaAposta.equals(rgbBotaoConfirmaAposta)) {
+//                     System.out.println("Realizando cliques escolhas");
+                   //VERIFICA A APOSTA ESCOLHIDA PARA REALIZAR AS ACOES NO SITE
+                   if (todasCoresParaEscolherAposta == preto) {
+                       String p = digiteAposta;
+                       robot.mouseMove(287, 232);//CAIXA DIGITA VALOR APOSTA
+                       TimeUnit.SECONDS.sleep(1);
+                       robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
+                       robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
+                       robot.keyPress(KeyEvent.VK_CONTROL);
+                       robot.keyPress(KeyEvent.VK_V);
+                       robot.keyRelease(KeyEvent.VK_CONTROL);
+                       robot.keyRelease(KeyEvent.VK_V);
+                       corEscolhida = pretoTela;
+                       robot.mouseMove(472, 328);//POSICAO DO BOTAO PRETO
+                       robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
+                       robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
+                       System.out.println("Cor ecolhida: preto"+" | "+"Valor da aposta: R$"+valorAposta+" | "+"Quantidade de apostas: " + (qtdAposta += 1));
+                   } else if (todasCoresParaEscolherAposta == vermelho) {
+                       String v = digiteAposta;
+                       robot.mouseMove(287, 232);//CAIXA DIGITA VALOR APOSTA
+                       TimeUnit.SECONDS.sleep(1);
+                       robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
+                       robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
+                       robot.keyPress(KeyEvent.VK_CONTROL);
+                       robot.keyPress(KeyEvent.VK_V);
+                       robot.keyRelease(KeyEvent.VK_CONTROL);
+                       robot.keyRelease(KeyEvent.VK_V);
+                       corEscolhida = vermelhoTela;
+                       robot.mouseMove(272, 333); //POSICAO DO BOTAO VERMELHO
+                       robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
+                       robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
+                       System.out.println("Cor ecolhida: vermelho"+" | "+"Valor da aposta: R$"+valorAposta+" | "+"Quantidade de apostas: " + (qtdAposta += 1));
+                   } else if (todasCoresParaEscolherAposta == branco) {
+                       String v = digiteAposta;
+                       TimeUnit.SECONDS.sleep(1);
+                       robot.mouseMove(287, 232);//CAIXA DIGITA VALOR APOSTA
+                       robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
+                       robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
+                       robot.keyPress(KeyEvent.VK_CONTROL);
+                       robot.keyPress(KeyEvent.VK_V);
+                       robot.keyRelease(KeyEvent.VK_CONTROL);
+                       robot.keyRelease(KeyEvent.VK_V);
+                       corEscolhida = brancoTela;
+                       robot.mouseMove(372, 337);//POSICAO DO BOTAO BRANCO
+                       robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
+                       robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
+                       System.out.println("Cor ecolhida: branco"+" | "+"Valor da aposta: R$"+valorAposta+" | "+" Quantidade de apostas: " + (qtdAposta += 1));
+                   }
+                       verificaEscolhaAposta = 1;
+               }//FIM IF
+               }
+//======================================================================================================================
                 //LACO QUE VERIFICA A COR DO BOTAO PARA REALIZAR A APOSTA
                 //ELE FICA PRESO AQUI ATE O BOTAO LIBERAR NA TELA
-                while (estadoDoBotao < 1) {
+                while (verificaEstadoDoBotaoRealizaAposta < 1) {
                     realizaClickBotaoAposta();
                 }
 
                 //INICIA A VERIFICACAO DO RESULTADO
-                while (verifica < 1) {
+                while (verificaResultadoAposta <1) {
+                    Color coordenadasBarra = robot.getPixelColor(1198, 247);
+                    Color rgbBarraConfirmaVerificacao = new Color(241,44,76);
+//                    System.out.println("Dentro da verificacao de resultado");
+
                     if (coordenadasBarra.equals(rgbBarraConfirmaVerificacao)) {
                         Color corResultado = robot.getPixelColor(resultadosAnterioresX[0], resultadosAnterioresY);
+//                        System.out.println("cor teste"+corResultado);
                         //USADO PARA VERIFICAR COR QUE SERA IMPRESSA  NO TERMINAL
                         String re = "";
                         if (corResultado.equals(pretoTela)) {
@@ -454,18 +481,13 @@ public class Bot {
                                 System.out.println("Cor resultado: " + re + "Errou: R$" + saldo);
                             }
                         }
-                        verifica = 1;
+                        verificaResultadoAposta = 1;
+                        verificaEscolhaAposta = 0;
+                        verificaEstadoDoBotaoRealizaAposta = 0;
                     }//FIM DO IF
-                }//FIM DO ACTION
-                    action = 1;
-
-                }//FIM IF
-                verifica = 0;
-                //RETORNA O VALOR DO ESTADO DO BOTAO
-                estadoDoBotao = 0;
-//            System.out.println("---------------------------------------------------------------------------------------");
-            }
-        } //FIM DO LACO
+                }//FIM VERIFICACAO RESULTADO APOSTA
+                  verificaResultadoAposta = 0;
+        }//FIM LACO PRINCIPAL
     }//FIM EXECUTE
 
     private int verificaValorAposta(double valorAposta, int todasCoresParaEscolherAposta, Random apostaAleatoria) {
@@ -479,7 +501,7 @@ public class Bot {
         return todasCoresParaEscolherAposta;
     }
 
-    //======================================================================================================================
+//======================================================================================================================
     //VERIFICA CORES
     public Object verificaCores(int X, int Y, int position) throws AWTException, InterruptedException {
         Color corColetada = robot.getPixelColor(X,Y);
@@ -513,12 +535,14 @@ public class Bot {
     public void realizaClickBotaoAposta() throws InterruptedException {
         Bot bot = new Bot();
         if(bot.coordenadasBotaoConfirmaAposta.equals(rgbBotaoConfirmaAposta)){
+//            System.out.println("Clicando no botao de aposta");
             robot.mouseMove(430, 400);//BOTAO MOVE EFETUA APOSTA
 //            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);//APERTA BOTAO ESQUERDO DO MOUSE
 //            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);//SOLTA BOTAO ESQUERDO DO MOUSE
             TimeUnit.SECONDS.sleep(16);
+//            System.out.println("16 segundos");
             robot.mouseMove(336, 469);//BOTAO
-            estadoDoBotao =1;
+            verificaEstadoDoBotaoRealizaAposta =1;
         }
     }
 
